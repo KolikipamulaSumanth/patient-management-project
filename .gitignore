@@ -1,0 +1,31 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
+backend-jar.out.log
+backend-jar.err.log
+backend-run.out.log
+backend-run.err.log
+
+# Java / Maven
+backend/target/
+microservices/**/target/
+*.class
+
+# Node / frontend
+frontend/node_modules/
+frontend/build/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Coverage / temp
+coverage/
+tmp/
+temp/
