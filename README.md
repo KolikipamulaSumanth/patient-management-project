@@ -1,175 +1,206 @@
-# Hospital Management System
+# Real-Time Chat Application
 
-A full-stack hospital and patient management platform built with Spring Boot, React, MySQL, and a microservices-ready platform layer.
+A modern full-stack chat application built with the MERN stack that enables users to communicate instantly through real-time messaging and media sharing.
 
-This project showcases:
+The application focuses on scalable frontend-backend architecture, secure authentication, responsive UI design, and real-time communication using WebSockets.
 
-- multi-role access for platform admins, hospital admins, doctors, and patients
-- multi-hospital tenancy and scoped administration
-- doctor management and weekly availability scheduling
-- patient self-registration and JWT authentication
-- appointment booking plus lifecycle operations like confirm, reschedule, and cancel
-- a microservices-ready foundation with Eureka discovery, API gateway, Docker, Actuator, and Flyway
-
-## Resume Summary
-
-Built an enterprise-style hospital management platform with:
-
-- Spring Boot 3, Java 21, React, Material UI, MySQL, JWT, and Maven
-- multi-tenant hospital administration with role-based security
-- appointment lifecycle workflows and doctor availability validation
-- microservices-ready architecture using API gateway and service discovery
-- containerized local deployment and live API verification
-
-## Key Features
-
-- Authentication
-  JWT-based login and patient self-registration
-- Role-based access control
-  Platform admin, hospital admin, doctor, and patient flows
-- Multi-hospital management
-  Hospital CRUD, hospital admins, and scoped doctor management
-- Doctor operations
-  Doctor profile management and weekly availability slots
-- Patient operations
-  Patient listing and admin-managed CRUD
-- Appointment operations
-  Booking, listing, rescheduling, confirmation, cancellation, and hospital calendar views
-- Platform readiness
-  Eureka discovery server, Spring Cloud Gateway, Dockerfiles, Docker Compose, Flyway, and Actuator health checks
-
-## Architecture
+## Tech Stack
 
 ### Frontend
 
 - React 18
-- Material UI
-- Axios API layer
-- Role-aware navigation and workflows
+- Vite
+- React Router DOM
+- Zustand
+- Axios
+- Tailwind CSS
+- DaisyUI
+- Lucide React
 
-### Main backend service
+### Backend
 
-- Spring Boot 3.2.5
-- Java 21
-- Spring Security + JWT
-- Spring Data JPA + MySQL
-- Spring Validation
-- Spring Mail
-- Springdoc OpenAPI
-- Flyway
-- Actuator
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- Socket.IO
+- JWT Authentication
+- Cloudinary
 
-### Platform services
+## Features
 
-- `microservices/discovery-server`
-  Eureka registry on port `8761`
-- `microservices/api-gateway`
-  Gateway on port `8080` routing `/api/**` to `patient-service`
+### Authentication System
+
+- User signup and login
+- JWT-based authentication
+- Protected API routes
+- Cookie-based session management
+
+### Real-Time Messaging
+
+- Instant one-to-one messaging
+- Live socket communication using Socket.IO
+- Real-time online/offline user status
+- Persistent chat history stored in MongoDB
+
+### Media Upload Support
+
+- Upload and share images in chats
+- Cloudinary integration for cloud storage
+- Optimized image delivery
+
+### Modern UI
+
+- Responsive design for desktop and mobile
+- Clean chat interface using Tailwind CSS and DaisyUI
+- Dynamic icons with Lucide React
+
+### State Management
+
+- Global state handling with Zustand
+- Centralized authentication and chat state
+- Efficient frontend updates
 
 ## Project Structure
 
 ```text
-fullstack-app/
-|- backend/
-|- frontend/
-|- microservices/
-|  |- api-gateway/
-|  `- discovery-server/
-|- docker-compose.yml
-|- VERIFICATION_NOTE.md
-`- README.md
+project-root/
+|
+├── backend/
+|   ├── src/
+|   |   ├── controllers/
+|   |   ├── middleware/
+|   |   ├── models/
+|   |   ├── routes/
+|   |   ├── lib/
+|   |   └── index.js
+|   |
+|   └── package.json
+|
+├── frontend/
+|   ├── src/
+|   |   ├── components/
+|   |   ├── pages/
+|   |   ├── store/
+|   |   ├── lib/
+|   |   └── main.jsx
+|   |
+|   └── package.json
+|
+└── README.md
 ```
 
-## Verified API Status
+## Installation & Setup
 
-The backend was verified live against MySQL with a full endpoint sweep.
-
-- Total checks: `43`
-- Passed: `43`
-- Failed: `0`
-
-See [VERIFICATION_NOTE.md](./VERIFICATION_NOTE.md) for the exact verification scope.
-
-## Local Run
-
-### Backend
-
-From `backend/`:
+### Clone the Repository
 
 ```bash
-mvn spring-boot:run
+git clone <your-repository-url>
+cd <project-folder>
 ```
 
-Runs on `http://localhost:4000`
+### Backend Setup
 
-### Discovery server
-
-From `microservices/discovery-server/`:
+Navigate to the backend folder:
 
 ```bash
-mvn spring-boot:run
+cd backend
 ```
 
-Runs on `http://localhost:8761`
-
-### API gateway
-
-From `microservices/api-gateway/`:
-
-```bash
-mvn spring-boot:run
-```
-
-Runs on `http://localhost:8080`
-
-### Frontend
-
-From `frontend/`:
+Install dependencies:
 
 ```bash
 npm install
-npm start
 ```
 
-Runs on `http://localhost:3000`
+Create a `.env` file:
 
-## Docker Run
+```env
+PORT=5001
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
+
+Start the backend server:
 
 ```bash
-docker compose up --build
+npm run dev
 ```
 
-Services:
+Backend runs on:
 
-- Frontend: `http://localhost:3000`
-- Gateway: `http://localhost:8080`
-- Discovery: `http://localhost:8761`
-- Backend: `http://localhost:4000`
+```text
+http://localhost:5001
+```
 
-## Environment Setup
+### Frontend Setup
 
-Use [.env.example](./.env.example) as a starting point for local or deployment configuration.
+Navigate to the frontend folder:
 
-Important:
+```bash
+cd frontend
+```
 
-- do not commit real database passwords
-- do not commit SMTP credentials
-- do not commit production JWT secrets
-- use environment variables or a secret manager in deployment
+Install dependencies:
 
-## Resume / Interview Talking Points
+```bash
+npm install
+```
 
-- Designed and implemented a role-based hospital platform with multi-tenant boundaries
-- Added appointment lifecycle management with validation against doctor availability
-- Fixed production-style runtime issues by aligning database schema and authorization logic
-- Extended the monolith into a microservices-ready platform using service discovery and gateway patterns
-- Added deployment-oriented improvements including Docker, health checks, Flyway, and verification reporting
+Start the frontend server:
 
-## Next Extensions
+```bash
+npm run dev
+```
 
-- EMR and medical records service
-- notification and reminders service
-- billing and invoice service
-- refresh tokens and revocation
-- audit logging and monitoring
-- CI/CD and cloud deployment
+Frontend runs on:
+
+```text
+http://localhost:5173
+```
+
+## Core Learning Concepts Used
+
+- REST API development with Express.js
+- Real-time communication using WebSockets
+- Authentication and authorization with JWT
+- MongoDB schema modeling with Mongoose
+- Global state management using Zustand
+- File uploads and cloud storage integration
+- Responsive frontend development with React and Tailwind CSS
+
+## Security Practices
+
+- Environment variables for sensitive credentials
+- Protected backend routes
+- JWT token verification
+- Secure cookie handling
+- Password hashing using bcryptjs
+
+## Future Improvements
+
+- Group chat support
+- Typing indicators
+- Read receipts
+- Voice and video calling
+- Push notifications
+- Message reactions
+- Redis-based socket scaling
+- Docker deployment
+- CI/CD integration
+
+## Resume Highlights
+
+- Developed a full-stack real-time chat application using the MERN stack
+- Implemented secure JWT authentication and protected routing
+- Built real-time messaging functionality using Socket.IO
+- Managed frontend state efficiently with Zustand
+- Integrated Cloudinary for media upload and storage
+- Designed a responsive and modern chat interface using Tailwind CSS
+
+## Notes
+
+This project was built for learning full-stack application architecture, real-time systems, authentication workflows, and scalable frontend-backend communication patterns.
