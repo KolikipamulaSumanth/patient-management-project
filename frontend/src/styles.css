@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+.app-frame {
+  min-height: 100vh;
+}
+
+.page-shell {
+  padding-top: 32px;
+  padding-bottom: 48px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.metric-card {
+  height: 100%;
+  padding: 20px;
+}
+
+.soft-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(245, 250, 249, 0.92));
+}

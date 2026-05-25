@@ -1,206 +1,163 @@
-# Real-Time Chat Application
+# Hospital Management System
 
-A modern full-stack chat application built with the MERN stack that enables users to communicate instantly through real-time messaging and media sharing.
+Enterprise-style full-stack hospital management platform built with Spring Boot, React, MySQL, JWT authentication, and a microservices-ready platform layer.
 
-The application focuses on scalable frontend-backend architecture, secure authentication, responsive UI design, and real-time communication using WebSockets.
+The application supports role-based workflows for platform admins, hospital admins, doctors, and patients. It includes hospital management, doctor management, patient records, doctor availability, appointment booking, and appointment lifecycle actions.
 
 ## Tech Stack
 
 ### Frontend
 
 - React 18
-- Vite
-- React Router DOM
-- Zustand
+- Material UI
+- React Router
 - Axios
-- Tailwind CSS
-- DaisyUI
-- Lucide React
 
 ### Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- Socket.IO
-- JWT Authentication
-- Cloudinary
+- Java
+- Spring Boot
+- Spring Security
+- JWT authentication
+- Spring Data JPA
+- MySQL
+- Flyway migrations
+- Actuator
+- OpenAPI/Swagger
 
-## Features
+### Platform Services
 
-### Authentication System
-
-- User signup and login
-- JWT-based authentication
-- Protected API routes
-- Cookie-based session management
-
-### Real-Time Messaging
-
-- Instant one-to-one messaging
-- Live socket communication using Socket.IO
-- Real-time online/offline user status
-- Persistent chat history stored in MongoDB
-
-### Media Upload Support
-
-- Upload and share images in chats
-- Cloudinary integration for cloud storage
-- Optimized image delivery
-
-### Modern UI
-
-- Responsive design for desktop and mobile
-- Clean chat interface using Tailwind CSS and DaisyUI
-- Dynamic icons with Lucide React
-
-### State Management
-
-- Global state handling with Zustand
-- Centralized authentication and chat state
-- Efficient frontend updates
+- Spring Cloud Gateway
+- Eureka Discovery Server
+- Docker
 
 ## Project Structure
 
 ```text
-project-root/
+fullstack-app/
+|-- frontend/
+|   |-- src/
+|   |-- public/
+|   |-- Dockerfile
+|   |-- nginx.conf
+|   |-- package.json
 |
-├── backend/
-|   ├── src/
-|   |   ├── controllers/
-|   |   ├── middleware/
-|   |   ├── models/
-|   |   ├── routes/
-|   |   ├── lib/
-|   |   └── index.js
-|   |
-|   └── package.json
+|-- backend/
+|   |-- src/main/java/com/pm/patientservice/
+|   |-- src/main/resources/
+|   |-- Dockerfile
+|   |-- pom.xml
 |
-├── frontend/
-|   ├── src/
-|   |   ├── components/
-|   |   ├── pages/
-|   |   ├── store/
-|   |   ├── lib/
-|   |   └── main.jsx
-|   |
-|   └── package.json
+|-- microservices/
+|   |-- api-gateway/
+|   |-- discovery-server/
 |
-└── README.md
+|-- README.md
 ```
 
-## Installation & Setup
+## Core Features
 
-### Clone the Repository
+- JWT-based login and registration
+- Role-based authorization
+- Platform admin hospital management
+- Hospital admin doctor management
+- Doctor profile and availability management
+- Patient registry management
+- Doctor discovery for patients
+- Appointment booking
+- Appointment rescheduling and cancellation
+- Appointment status updates: pending, confirmed, rescheduled, completed, no-show, cancelled
+- Hospital calendar view
+- Swagger/OpenAPI support
+- Eureka service discovery
+- API gateway routing
 
-```bash
-git clone <your-repository-url>
-cd <project-folder>
-```
+## Roles
 
-### Backend Setup
+- `ROLE_PLATFORM_ADMIN`: manage hospitals, hospital admins, doctors, patients, and appointments across the platform
+- `ROLE_ADMIN`: manage doctors, availability, appointments, and patients within a hospital
+- `ROLE_DOCTOR`: view patients and appointments
+- `ROLE_PATIENT`: browse doctors, book visits, and manage personal appointments
 
-Navigate to the backend folder:
+## Local Development
 
-```bash
-cd backend
-```
+Expected local ports:
 
-Install dependencies:
+- Frontend: `http://localhost:3000`
+- Backend: `http://localhost:4000`
+- API Gateway: `http://localhost:8080`
+- Eureka Discovery Server: `http://localhost:8761`
 
-```bash
-npm install
-```
-
-Create a `.env` file:
-
-```env
-PORT=5001
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-```
-
-Start the backend server:
-
-```bash
-npm run dev
-```
-
-Backend runs on:
-
-```text
-http://localhost:5001
-```
-
-### Frontend Setup
-
-Navigate to the frontend folder:
+### Frontend
 
 ```bash
 cd frontend
-```
-
-Install dependencies:
-
-```bash
 npm install
+npm start
 ```
 
-Start the frontend server:
+### Backend
 
 ```bash
-npm run dev
+cd backend
+mvn spring-boot:run
 ```
 
-Frontend runs on:
+### Microservices
 
-```text
-http://localhost:5173
+```bash
+cd microservices/discovery-server
+mvn spring-boot:run
 ```
 
-## Core Learning Concepts Used
+```bash
+cd microservices/api-gateway
+mvn spring-boot:run
+```
 
-- REST API development with Express.js
-- Real-time communication using WebSockets
-- Authentication and authorization with JWT
-- MongoDB schema modeling with Mongoose
-- Global state management using Zustand
-- File uploads and cloud storage integration
-- Responsive frontend development with React and Tailwind CSS
+## API Highlights
 
-## Security Practices
+Public endpoints:
 
-- Environment variables for sensitive credentials
-- Protected backend routes
-- JWT token verification
-- Secure cookie handling
-- Password hashing using bcryptjs
+- `GET /actuator/health`
+- `GET /hospitals`
+- `GET /doctors`
+- `GET /doctors/{id}`
+- `GET /doctors/{id}/availability`
 
-## Future Improvements
+Authentication:
 
-- Group chat support
-- Typing indicators
-- Read receipts
-- Voice and video calling
-- Push notifications
-- Message reactions
-- Redis-based socket scaling
-- Docker deployment
-- CI/CD integration
+- `POST /auth/login`
+- `POST /auth/register`
+- `GET /users/me`
 
-## Resume Highlights
+Hospital management:
 
-- Developed a full-stack real-time chat application using the MERN stack
-- Implemented secure JWT authentication and protected routing
-- Built real-time messaging functionality using Socket.IO
-- Managed frontend state efficiently with Zustand
-- Integrated Cloudinary for media upload and storage
-- Designed a responsive and modern chat interface using Tailwind CSS
+- `POST /hospitals`
+- `PUT /hospitals/{id}`
+- `POST /hospitals/{id}/admins`
+- `GET /hospitals/{id}/admins`
+- `GET /hospitals/{id}/calendar`
 
-## Notes
+Doctor and availability management:
 
-This project was built for learning full-stack application architecture, real-time systems, authentication workflows, and scalable frontend-backend communication patterns.
+- `GET /doctors`
+- `POST /doctors`
+- `PUT /doctors/{id}`
+- `POST /doctors/{id}/delete`
+- `POST /doctors/{id}/availability`
+- `PUT /doctors/{id}/availability/{slotId}`
+- `POST /doctors/{id}/availability/{slotId}/delete`
+
+Patient and appointment management:
+
+- `GET /patients`
+- `POST /patients`
+- `PUT /patients/{id}`
+- `DELETE /patients/{id}`
+- `POST /appointments`
+- `GET /appointments`
+- `GET /appointments/my`
+- `PUT /appointments/{id}/reschedule`
+- `POST /appointments/{id}/status`
+- `POST /appointments/{id}/cancel`

@@ -7,7 +7,12 @@ import {
   Button,
   Paper,
   Box,
+  Alert,
+  Grid,
+  Chip,
+  Stack,
 } from '@mui/material';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import api from '../api';
 
 /**
@@ -83,11 +88,27 @@ function PatientForm() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" component="h1" align="center">
-          {isEdit ? 'Edit Patient' : 'Add Patient'}
-        </Typography>
+    <Container maxWidth="lg" className="page-shell">
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={5}>
+          <Paper className="soft-panel" sx={{ p: { xs: 3, md: 4 }, height: '100%' }}>
+            <Chip color="primary" label={isEdit ? 'Update registry' : 'New registry entry'} sx={{ mb: 3 }} />
+            <Typography variant="h3" component="h1">
+              {isEdit ? 'Edit patient profile' : 'Add a patient'}
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 2 }}>
+              Keep demographic records clean so doctors and administrators can test patient and appointment workflows reliably.
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={7}>
+          <Paper sx={{ p: { xs: 3, md: 4 } }}>
+            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
+              <PersonAddAlt1Icon color="primary" />
+              <Typography variant="h5" component="h2">
+                Patient details
+              </Typography>
+            </Stack>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <TextField
             fullWidth
@@ -127,16 +148,14 @@ function PatientForm() {
             value={form.dateOfBirth}
             onChange={handleChange}
           />
-          {error && (
-            <Typography color="error" variant="body2">
-              {error}
-            </Typography>
-          )}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+          {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          <Button type="submit" variant="contained" fullWidth size="large" sx={{ mt: 3 }}>
             {isEdit ? 'Update' : 'Create'}
           </Button>
         </Box>
       </Paper>
+        </Grid>
+      </Grid>
     </Container>
   );
 }

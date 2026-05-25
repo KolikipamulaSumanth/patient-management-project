@@ -214,10 +214,25 @@ function HospitalManagementPage() {
   };
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Platform Management
-      </Typography>
+    <Container maxWidth="xl" className="page-shell">
+      <Paper className="soft-panel" sx={{ p: { xs: 3, md: 4 }, mb: 3 }}>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={8}>
+            <Typography variant="h3" component="h1">
+              Platform management
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1, maxWidth: 760 }}>
+              Manage hospitals, hospital admins, and calendar visibility across the full healthcare network.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box className="metric-card" sx={{ borderRadius: 2, bgcolor: 'rgba(255,255,255,0.72)' }}>
+              <Typography variant="h4">{hospitals.length}</Typography>
+              <Typography color="text.secondary">registered hospitals</Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
       <Grid container spacing={3}>
@@ -274,7 +289,7 @@ function HospitalManagementPage() {
         </Grid>
 
         <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 2, mb: 3 }}>
+          <Paper className="table-wrap" sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Hospitals
             </Typography>
@@ -304,7 +319,7 @@ function HospitalManagementPage() {
             </Table>
           </Paper>
 
-          <Paper sx={{ p: 2, mb: 3 }}>
+          <Paper className="table-wrap" sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Hospital Admins
             </Typography>
@@ -333,7 +348,7 @@ function HospitalManagementPage() {
             </Table>
           </Paper>
 
-          <Paper sx={{ p: 2 }}>
+          <Paper className="table-wrap" sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom>
               Hospital Appointment Calendar
             </Typography>

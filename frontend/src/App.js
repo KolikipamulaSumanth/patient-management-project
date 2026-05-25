@@ -50,23 +50,25 @@ function HomeRedirect() {
 function App() {
   return (
     <AuthProvider>
-      <NavBar />
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<PrivateRoute><HomeRedirect /></PrivateRoute>} />
-        <Route path="/doctors" element={<PrivateRoute><DoctorsPage /></PrivateRoute>} />
-        <Route path="/patients" element={<PrivateRoute><PatientsPage /></PrivateRoute>} />
-        <Route path="/patients/new" element={<PrivateRoute><PatientForm /></PrivateRoute>} />
-        <Route path="/patients/:id/edit" element={<PrivateRoute><PatientForm /></PrivateRoute>} />
-        <Route path="/appointments" element={<PrivateRoute><AppointmentsPage /></PrivateRoute>} />
-        <Route path="/appointments/new" element={<PrivateRoute><AppointmentForm /></PrivateRoute>} />
-        <Route path="/appointments/my" element={<PrivateRoute><MyAppointmentsPage /></PrivateRoute>} />
-        <Route path="/admin/doctors" element={<PrivateRoute><AdminDoctorsPage /></PrivateRoute>} />
-        <Route path="/admin/hospitals" element={<PrivateRoute><HospitalManagementPage /></PrivateRoute>} />
-        {/* Fallback: redirect unknown routes */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      <div className="app-frame">
+        <NavBar />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<PrivateRoute><HomeRedirect /></PrivateRoute>} />
+          <Route path="/doctors" element={<PrivateRoute><DoctorsPage /></PrivateRoute>} />
+          <Route path="/patients" element={<PrivateRoute><PatientsPage /></PrivateRoute>} />
+          <Route path="/patients/new" element={<PrivateRoute><PatientForm /></PrivateRoute>} />
+          <Route path="/patients/:id/edit" element={<PrivateRoute><PatientForm /></PrivateRoute>} />
+          <Route path="/appointments" element={<PrivateRoute><AppointmentsPage /></PrivateRoute>} />
+          <Route path="/appointments/new" element={<PrivateRoute><AppointmentForm /></PrivateRoute>} />
+          <Route path="/appointments/my" element={<PrivateRoute><MyAppointmentsPage /></PrivateRoute>} />
+          <Route path="/admin/doctors" element={<PrivateRoute><AdminDoctorsPage /></PrivateRoute>} />
+          <Route path="/admin/hospitals" element={<PrivateRoute><HospitalManagementPage /></PrivateRoute>} />
+          {/* Fallback: redirect unknown routes */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
     </AuthProvider>
   );
 }

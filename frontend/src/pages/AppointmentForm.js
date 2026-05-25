@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Paper, TextField, Button, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Alert, Box, Button, Chip, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../api';
 
@@ -59,11 +60,37 @@ function AppointmentForm() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" component="h1" align="center">
-          Schedule Appointment
-        </Typography>
+    <Container maxWidth="lg" className="page-shell">
+      <Grid container spacing={4} alignItems="stretch">
+        <Grid item xs={12} md={5}>
+          <Paper className="soft-panel" sx={{ p: { xs: 3, md: 4 }, height: '100%' }}>
+            <Chip label="Booking workflow" color="secondary" sx={{ mb: 3 }} />
+            <Typography variant="h3" component="h1">
+              Schedule an appointment
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 2 }}>
+              Choose a doctor, compare their published availability, and submit the request to the appointment service.
+            </Typography>
+            <Stack spacing={2} sx={{ mt: 4 }}>
+              {availabilitySlots.length ? availabilitySlots.map((slot) => (
+                <Box key={slot.id || `${slot.dayOfWeek}-${slot.startTime}`} sx={{ p: 2, borderRadius: 2, bgcolor: 'rgba(255,255,255,0.72)' }}>
+                  <Typography fontWeight={800}>{slot.dayOfWeek}</Typography>
+                  <Typography color="text.secondary">{slot.startTime} - {slot.endTime}</Typography>
+                </Box>
+              )) : (
+                <Typography color="text.secondary">Select a doctor to view published slots.</Typography>
+              )}
+            </Stack>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={7}>
+          <Paper sx={{ p: { xs: 3, md: 4 }, height: '100%' }}>
+            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
+              <CalendarMonthIcon color="primary" />
+              <Typography variant="h5" component="h2">
+                Appointment details
+              </Typography>
+            </Stack>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <FormControl fullWidth margin="normal">
             <InputLabel id="doctor-select-label">Doctor</InputLabel>
@@ -108,22 +135,14 @@ function AppointmentForm() {
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            Available slots:{' '}
-            {availabilitySlots.length
-              ? availabilitySlots.map((slot) => `${slot.dayOfWeek} ${slot.startTime}-${slot.endTime}`).join(', ')
-              : 'No availability published for this doctor yet'}
-          </Typography>
-          {error && (
-            <Typography color="error" variant="body2">
-              {error}
-            </Typography>
-          )}
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+          {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+          <Button type="submit" variant="contained" fullWidth size="large" sx={{ mt: 3 }}>
             Schedule
           </Button>
         </Box>
       </Paper>
+        </Grid>
+      </Grid>
     </Container>
   );
 }

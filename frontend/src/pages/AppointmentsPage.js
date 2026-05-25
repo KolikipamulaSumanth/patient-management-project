@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Paper,
@@ -23,6 +24,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import api from '../api';
 import AuthContext from '../contexts/AuthContext';
 
@@ -66,6 +70,9 @@ function AppointmentsPage() {
   const [end, setEnd] = useState('');
 
   const isAdmin = user?.roles.includes('ROLE_ADMIN') || user?.roles.includes('ROLE_PLATFORM_ADMIN');
+  const pendingCount = appointments.filter((appt) => appt.status === 'PENDING').length;
+  const activeCount = appointments.filter((appt) => canModifyAppointment(appt)).length;
+  const closedCount = appointments.length - activeCount;
 
   useEffect(() => {
     if (isAdmin) {
@@ -160,13 +167,40 @@ function AppointmentsPage() {
   };
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Appointments
-      </Typography>
+    <Container maxWidth="xl" className="page-shell">
+      <Paper className="soft-panel" sx={{ p: { xs: 3, md: 4 }, mb: 3 }}>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={7}>
+            <Chip label="Operations command" color="secondary" sx={{ mb: 2 }} />
+            <Typography variant="h3" component="h1">
+              Appointment control center
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1, maxWidth: 700 }}>
+              Review bookings, move appointments through their lifecycle, and capture operational notes against protected backend endpoints.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <Grid container spacing={2}>
+              {[
+                ['Pending', pendingCount, PendingActionsIcon],
+                ['Active', activeCount, AssignmentTurnedInIcon],
+                ['Closed', closedCount, EventBusyIcon],
+              ].map(([label, value, Icon]) => (
+                <Grid item xs={4} key={label}>
+                  <Box className="metric-card" sx={{ borderRadius: 2, bgcolor: 'rgba(255,255,255,0.72)' }}>
+                    <Icon color="primary" />
+                    <Typography variant="h4">{value}</Typography>
+                    <Typography variant="caption" color="text.secondary">{label}</Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       {isAdmin && (
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mb: 3 }}>
           <FormControl sx={{ minWidth: 240 }}>
             <InputLabel id="doctor-select-label">Select Doctor</InputLabel>
             <Select
@@ -183,7 +217,7 @@ function AppointmentsPage() {
           </FormControl>
         </Box>
       )}
-      <Paper>
+      <Paper className="table-wrap">
         <Table>
           <TableHead>
             <TableRow>

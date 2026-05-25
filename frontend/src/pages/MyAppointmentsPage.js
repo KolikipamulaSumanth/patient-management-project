@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
+  Box,
   Button,
   Chip,
   Container,
@@ -8,6 +9,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Paper,
   Stack,
   Table,
@@ -18,6 +20,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 import api from '../api';
 
 function formatDateTimeInput(value) {
@@ -55,6 +60,9 @@ function MyAppointmentsPage() {
   const [note, setNote] = useState('');
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
+  const upcomingCount = appointments.filter((appt) => canModifyAppointment(appt)).length;
+  const completedCount = appointments.filter((appt) => appt.status === 'COMPLETED').length;
+  const cancelledCount = appointments.filter((appt) => appt.status === 'CANCELLED').length;
 
   const loadAppointments = async () => {
     try {
@@ -116,12 +124,39 @@ function MyAppointmentsPage() {
   };
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        My Appointments
-      </Typography>
+    <Container maxWidth="xl" className="page-shell">
+      <Paper className="soft-panel" sx={{ p: { xs: 3, md: 4 }, mb: 3 }}>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={7}>
+            <Chip label="Patient timeline" color="primary" sx={{ mb: 2 }} />
+            <Typography variant="h3" component="h1">
+              My appointments
+            </Typography>
+            <Typography color="text.secondary" sx={{ mt: 1, maxWidth: 700 }}>
+              Track upcoming visits, reschedule when needed, and review status updates from your care team.
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <Grid container spacing={2}>
+              {[
+                ['Upcoming', upcomingCount, CalendarMonthIcon],
+                ['Completed', completedCount, EventAvailableIcon],
+                ['Cancelled', cancelledCount, EventBusyIcon],
+              ].map(([label, value, Icon]) => (
+                <Grid item xs={4} key={label}>
+                  <Box className="metric-card" sx={{ borderRadius: 2, bgcolor: 'rgba(255,255,255,0.72)' }}>
+                    <Icon color="primary" />
+                    <Typography variant="h4">{value}</Typography>
+                    <Typography variant="caption" color="text.secondary">{label}</Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Paper>
+      <Paper className="table-wrap">
         <Table>
           <TableHead>
             <TableRow>
